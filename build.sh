@@ -21,7 +21,19 @@ $SHP2PGSQL -s 4326 -D -I ne_10m_admin_1_states_provinces_lakes/ne_10m_admin_1_st
 
 $PSQL -f country.sql
 $PSQL -f locator.sql
+
 $PSQL -f map.sql
 $PSQL -f map-qa.sql
 
+$PSQL -f cqzone.sql
+$PSQL -f cqzone-qa.sql
+
+$PSQL -f wrapup.sql
+
+rm -rf country
+mkdir country
 pgsql2shp -f country/country country country
+
+rm -rf cqzone
+mkdir cqzone
+pgsql2shp -f cqzone/cqzone country cqzone

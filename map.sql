@@ -288,8 +288,4 @@ update country set geom = st_difference(geom, :'geom') where country = 'United S
 update country set geom = :'geom' where country = 'Vienna Intl Ctr';
 update country set geom = st_multi(st_difference(geom, :'geom')) where country = 'Austria';
 
---update country set geom2 = st_simplify(geom, 0.02, true);
-
-cluster country using country_pkey;
-
 create index if not exists country_geom_idx on country using gist (geom);
