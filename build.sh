@@ -28,12 +28,13 @@ $PSQL -f map-qa.sql
 $PSQL -f cqzone.sql
 $PSQL -f cqzone-qa.sql
 
+$PSQL -f ituzone.sql
+$PSQL -f ituzone-qa.sql
+
 $PSQL -f wrapup.sql
 
-rm -rf country
-mkdir country
-pgsql2shp -f country/country country country
-
-rm -rf cqzone
-mkdir cqzone
-pgsql2shp -f cqzone/cqzone country cqzone
+for table in country cqzone ituzone; do
+  rm -rf $table
+  mkdir $table
+  pgsql2shp -f $table/$table country $table
+done

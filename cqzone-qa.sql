@@ -1,3 +1,7 @@
+\pset title 'Countries not in any cqzone.ctys'
+
+select cty from country where cty not in (select unnest(ctys) from cqzone);
+
 \pset title 'Countries from map0 not in any cqzone.geom (expected: Southern Patagonian Ice Field)'
 
 select name from map0 m where not exists (select from cqzone c where st_intersects(st_buffer(m.geom, -0.0001), c.geom));

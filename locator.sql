@@ -54,3 +54,8 @@ CREATE OR REPLACE FUNCTION ST_Locator(loc text) RETURNS geometry(POLYGON, 4326)
 STRICT LANGUAGE SQL
 AS $$SELECT ST_Polygon(ST_GeomFromText(locator_as_linestring(loc)), 4326)$$;
 
+create or replace function box(w numeric, e numeric, s numeric, n numeric)
+  returns geometry(MultiPolygon,4326)
+  return
+    format('SRID=4326;MULTIPOLYGON(((%s %s,%s %s,%s %s,%s %s,%s %s)))',
+      w,s, w,n, e,n, e,s, w,s)::geometry;
