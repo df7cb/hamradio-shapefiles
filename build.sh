@@ -2,6 +2,7 @@
 
 PSQL="psql -X -vON_ERROR_STOP=1"
 SHP2PGSQL="shp2pgsql -s 4326 -D -I"
+PG_DUMP="pg_dump --data-only --column-inserts --on-conflict-do-nothing --no-owner"
 
 set -eux
 
@@ -33,8 +34,25 @@ $PSQL -f ituzone-qa.sql
 
 $PSQL -f wrapup.sql
 
+# shapefile output
 for table in country cqzone ituzone; do
-  rm -rf $table
+  rm -rf $table $table.zip
   mkdir $table
   pgsql2shp -f $table/$table country $table
+  ( cd $table && zip ../$table.zip * )
+done
+
+# "insert on conflict" output
+(
+  $PG_DUMP -t country \
+    | sed -e 's/DO NOTHING/(cty) do update set country=excluded.country, official=excluded.official, beam=excluded.beam, cq=excluded.cq, itu=excluded.itu, lat=excluded.lat, lon=excluded.lon, tz=excluded.tz, prefixes=excluded.prefixes, geom=excluded.geom/'
+  echo "cluster public.country using country_pkey;"
+) | gzip -9 > country-load.sql.gz
+
+for i in cq itu; do
+(
+  $PG_DUMP -t ${i}zone \
+    | sed -e "s/DO NOTHING/($i) do update set ctys=excluded.ctys, geom=excluded.geom/"
+  echo "cluster public.${i}zone using ${i}zone_pkey;"
+) | gzip -9 > ${i}zone-load.sql.gz
 done
