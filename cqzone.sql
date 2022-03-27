@@ -123,7 +123,7 @@ insert into cqzone
     -- zone 17 part of Russia
     select 'UA9', geom from map1
     where iso_3166_2 in (
-      'RU-TYU', 'RU-KGN', 'RU-OMS', 'RU-CHE', 'RU-YAN', 'RU-SVE', 'RU-KHM', 'RU-KO', 'RU-PER', 'RU-X01~' -- tiny island in Eastern RU-YAN
+      'RU-BA', 'RU-ORE', 'RU-TYU', 'RU-KGN', 'RU-OMS', 'RU-CHE', 'RU-YAN', 'RU-SVE', 'RU-KHM', 'RU-KO', 'RU-PER', 'RU-X01~' -- tiny island in Eastern RU-YAN
     )
   ) sub;
 
