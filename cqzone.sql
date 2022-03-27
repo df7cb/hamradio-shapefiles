@@ -7,7 +7,7 @@ create table cqzone (
 );
 
 insert into cqzone
-  select cq, array_agg(cty), st_multi(st_union(geom))
+  select cq, array_agg(cty order by cty), st_multi(st_union(geom))
   from country
   where cq not in (
     1, 5, -- K, VE (zones 2/3/4 are empty as by country.cq)
@@ -21,7 +21,7 @@ insert into cqzone
 \set newfoundland 'SRID=4326;MULTIPOLYGON(((-54.82123866832431 52.3851362350971,-60.425873767409676 49.414004375341,-55.60453706771455 40.514113940889786,-51.823096518934065 47.61782011467027,-54.82123866832431 52.3851362350971)))'
 
 insert into cqzone
-  select 1, array_agg(distinct cty), st_multi(st_union(geom))
+  select 1, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- Alaska
     select cty, geom from country
@@ -74,7 +74,7 @@ insert into cqzone
   );
 
 insert into cqzone
-  select 5, array_agg(distinct cty), st_multi(st_union(geom))
+  select 5, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- zone 5 except Canada and the US
     select cty, geom from country
@@ -99,7 +99,7 @@ insert into cqzone
   ) sub;
 
 -- insert into cqzone
---   select 16, array_agg(distinct cty), st_multi(st_union(geom))
+--   select 16, array_agg(distinct cty order by cty), st_multi(st_union(geom))
 --   from (
 --     -- zone 16 except Russia
 --     select cty, geom from country
@@ -114,7 +114,7 @@ insert into cqzone
 --   ) sub;
 
 insert into cqzone
-  select 17, array_agg(distinct cty), st_multi(st_union(geom))
+  select 17, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- zone 17 except Russia
     select cty, geom from country
@@ -128,7 +128,7 @@ insert into cqzone
   ) sub;
 
 insert into cqzone
-  select 18, array_agg(distinct cty), st_multi(st_union(geom))
+  select 18, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- zone 18 except Russia
     select cty, geom from country
@@ -142,7 +142,7 @@ insert into cqzone
   ) sub;
 
 insert into cqzone
-  select 19, array_agg(distinct cty), st_multi(st_union(geom))
+  select 19, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- zone 19 except Russia
     select cty, geom from country
@@ -156,7 +156,7 @@ insert into cqzone
   ) sub;
 
 insert into cqzone
-  select 23, array_agg(distinct cty), st_multi(st_union(geom))
+  select 23, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- zone 23
     select cty, geom from country
@@ -172,7 +172,7 @@ insert into cqzone
   ) sub;
 
 insert into cqzone
-  select 24, array_agg(distinct cty), st_multi(st_union(geom))
+  select 24, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- zone 24 except China
     select cty, geom from country
@@ -184,7 +184,7 @@ insert into cqzone
   ) sub;
 
 insert into cqzone
-  select 34, array_agg(distinct cty), st_multi(st_union(geom))
+  select 34, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from (
     -- zone 34
     select cty, geom from country
@@ -196,7 +196,7 @@ insert into cqzone
 
 --delete from cqzone where cq in (12, 13, 38, 39, 29, 30, 32);
 insert into cqzone
-  select z.cq, array_agg(distinct cty), st_multi(st_union(sub.geom))
+  select z.cq, array_agg(distinct cty order by cty), st_multi(st_union(sub.geom))
   from (values
     (12, 'SRID=4326;POLYGON((-120 -90,-120 -60,-65 -60,-65 -90,-120 -90))'::geometry),
     (13, 'SRID=4326;POLYGON((-65 -90,-65 -60,-25 -60,-25 -90,-65 -90))'),

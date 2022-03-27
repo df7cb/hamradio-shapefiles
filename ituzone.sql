@@ -10,7 +10,7 @@ delete from ituzone;
 
 -- Zones with countries that span several zones and need clipping
 insert into ituzone
-  select z.itu, array_agg(distinct cty), st_multi(st_union(sub.geom))
+  select z.itu, array_agg(distinct cty order by cty), st_multi(st_union(sub.geom))
   from (values
     (1, st_union(box(-180, -141, 50, 80), box(170, 180, 50, 80)), array['KL']::text[]),
     (2, box(-141, -110, 40, 80), array['KL', 'VE']),
@@ -97,7 +97,7 @@ insert into ituzone
 
 -- Zones with only countries that don't need clipping
 insert into ituzone
-  select itu, array_agg(cty), st_multi(st_union(geom))
+  select itu, array_agg(distinct cty order by cty), st_multi(st_union(geom))
   from country
   where itu not in (select itu from ituzone)
   group by itu;
