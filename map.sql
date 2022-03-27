@@ -37,12 +37,12 @@ update country set geom =
 update country set geom =
   (select st_multi(st_union(geom)) from map1
     where iso_a2 = 'RU' and region in ('Northwestern', 'Central', 'Volga')
-          and name not in ('Kaliningrad', 'Komi', 'Perm', 'Perm'''))
+          and name not in ('Kaliningrad', 'Bashkortostan', 'Komi', 'Orenburg', 'Perm', 'Perm'''))
   where country = 'European Russia';
 update country set geom =
   (select st_multi(st_union(geom)) from map1
     where iso_a2 = 'RU' and (region not in ('Northwestern', 'Central', 'Volga')
-          or name in ('Komi', 'Perm', 'Perm''')))
+          or name in ('Bashkortostan', 'Komi', 'Orenburg', 'Perm', 'Perm''')))
   where country = 'Asiatic Russia';
 
 -- build countries from pieces from map0 --------------------------------------
