@@ -45,7 +45,7 @@ done
 # "insert on conflict" output
 (
   $PG_DUMP -t country \
-    | sed -e 's/DO NOTHING/(cty) do update set country=excluded.country, official=excluded.official, beam=excluded.beam, cq=excluded.cq, itu=excluded.itu, lat=excluded.lat, lon=excluded.lon, tz=excluded.tz, prefixes=excluded.prefixes, geom=excluded.geom/'
+    | sed -e 's/DO NOTHING/(cty) do update set country=excluded.country, official=excluded.official, dxcc=excluded.dxcc, cq=excluded.cq, itu=excluded.itu, lat=excluded.lat, lon=excluded.lon, tz=excluded.tz, prefixes=excluded.prefixes, geom=excluded.geom/'
   echo "cluster public.country using country_pkey;"
 ) | gzip -9 > country-load.sql.gz
 

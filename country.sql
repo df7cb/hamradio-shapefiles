@@ -8,7 +8,7 @@ create table country (
   cty text primary key,
   country text not null,
   official boolean,
-  beam int,
+  dxcc smallint, -- ADIF DXCC entity code
   continent text not null,
   cq int not null,
   itu int not null,
@@ -19,7 +19,7 @@ create table country (
   geom geometry(MultiPolygon, 4326)
 );
 
-\copy country (cty, country, beam, continent, cq, itu, lat, lon, tz, prefixes) from 'cty.csv' (format csv, delimiter ',')
+\copy country (cty, country, dxcc, continent, cq, itu, lat, lon, tz, prefixes) from 'cty.csv' (format csv, delimiter ',')
 
 update country set
   cty = regexp_replace(cty, '^\*', ''),
